@@ -1,0 +1,13 @@
+<!-- example.launch.xml -->
+
+<launch>
+
+  <group>
+  
+    <node pkg="nav2_controller" exec="controller_server" name="controller_server" namespace="$(env ROS_2_NAV_NS)">
+      <param from="$(find-pkg-share robotino_nav2)/params/robotino_nav2.yaml"/>
+      <param name="local_costmap.local_costmap.global_frame" value="test"/>
+    </node>
+  </group>
+
+</launch>
