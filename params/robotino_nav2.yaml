@@ -10,14 +10,15 @@ bt_navigator:
     odom_topic: /odom # remapped by ROS_2_NAV_NS in launch file
     bt_loop_duration: 10
     default_server_timeout: 20
-    enable_groot_monitoring: False
+    enable_groot_monitoring: True
     groot_zmq_publisher_port: 1666
     groot_zmq_server_port: 1667
     # 'default_nav_through_poses_bt_xml' and 'default_nav_to_pose_bt_xml' are use defaults:
     # nav2_bt_navigator/navigate_to_pose_w_replanning_and_recovery.xml
     # nav2_bt_navigator/navigate_through_poses_w_replanning_and_recovery.xml
     # They can be set here or via a RewrittenYaml remap from a parent launch file to Nav2.
-    default_nav_to_pose_bt_xml: "navigate_to_pose_w_mapf_w_replanning_and_recovery.xml"
+    #default_nav_to_pose_bt_xml: "robocup_mapf_tree.xml"
+    #default_nav_through_poses_bt_xml: "nav2_bt_navigator/navigate_through_poses_w_replanning_and_recovery.xml"
 
     bt_navigatornavigate_to_pose_rclcpp_node:
        goal_reached_tol: 5.0
@@ -29,7 +30,6 @@ bt_navigator:
     - nav2_back_up_action_bt_node
     - nav2_spin_action_bt_node
     - nav2_wait_action_bt_node
-    - nav2_wait_at_pose_action_bt_node
     - nav2_clear_costmap_service_bt_node
     - nav2_is_stuck_condition_bt_node
     - nav2_goal_reached_condition_bt_node
@@ -41,7 +41,6 @@ bt_navigator:
     - nav2_speed_controller_bt_node
     - nav2_truncate_path_action_bt_node
     - nav2_goal_updater_node_bt_node
-    - nav2_pose_from_path_node_bt_node
     - nav2_recovery_node_bt_node
     - nav2_pipeline_sequence_bt_node
     - nav2_round_robin_node_bt_node
@@ -56,6 +55,8 @@ bt_navigator:
     - nav2_planner_selector_bt_node
     - nav2_controller_selector_bt_node
     - nav2_goal_checker_selector_bt_node
+    - nav2_mapf_call_service_bt_node
+    - nav2_check_for_wait_condition_bt_node
 
 #controller_server:
 #  ros__parameters:
@@ -284,7 +285,7 @@ controller_server:
       use_cost_regulated_linear_velocity_scaling: false
       regulated_linear_scaling_min_radius: 0.9
       regulated_linear_scaling_min_speed: 0.25
-      use_rotate_to_heading: true
+      use_rotate_to_heading: false
       rotate_to_heading_min_angle: 0.785
       max_angular_accel: 3.2
       max_robot_pose_search_dist: 10.0
@@ -487,34 +488,25 @@ map_saver:
 planner_server:
   ros__parameters:
 #    use_sim_time: False
-    planner_plugins: ["GridBased", "MAPF"]
+    planner_plugins: ["GridBased"]
     GridBased:
       plugin: 'nav2_navfn_planner/NavfnPlanner'
       use_astar: True
       allow_unknown: True
-      tolerance: 3.0
-    MAPF:
-      plugin: 'nav2_mapf_planner/MapfPlanner'
-      use_astar: True
-      allow_unknown: True
-      tolerance: 3.0
-      id: 0 # TODO: This urgently needs to be made dynamic!
-
+      tolerance: 0.0
+      
 recoveries_server:
   ros__parameters:
     use_sim_time: True
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
     cycle_frequency: 10.0
-#    recovery_plugins: ["spin", "backup", "wait"]
-    recovery_plugins: ["backup", "spin", "wait", "wait_at_pose"]
+    recovery_plugins: ["spin", "backup", "wait"]
     spin:
       plugin: "nav2_recoveries/Spin"
     backup:
       plugin: "nav2_recoveries/BackUp"
     wait:
-      plugin: "nav2_recoveries/Wait"
-    wait_at_pose:
       plugin: "nav2_recoveries/Wait"
     global_frame: odom # suffixed by ROS_2_NAV_NS in launch file
     robot_base_frame: base_link # suffixed by ROS_2_NAV_NS in launch file
