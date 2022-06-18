@@ -1,6 +1,7 @@
 bt_navigatornavigate_to_pose_rclcpp_node:
   ros__parameters:
    goal_reached_tol: 0.25
+   robot_base_frame: "to_be_set_by_launchfile"
 
 bt_navigator:
   ros__parameters:
@@ -22,6 +23,8 @@ bt_navigator:
 
     bt_navigatornavigate_to_pose_rclcpp_node:
        goal_reached_tol: 5.0
+       robot_base_frame: "to_be_set_by_launchfile"
+
 
     plugin_lib_names:
     - nav2_compute_path_to_pose_action_bt_node
