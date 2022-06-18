@@ -1,8 +1,3 @@
-bt_navigatornavigate_to_pose_rclcpp_node:
-  ros__parameters:
-   goal_reached_tol: 0.25
-   robot_base_frame: "to_be_set_by_launchfile"
-
 bt_navigator:
   ros__parameters:
     use_sim_time: True
@@ -20,11 +15,6 @@ bt_navigator:
     # They can be set here or via a RewrittenYaml remap from a parent launch file to Nav2.
     #default_nav_to_pose_bt_xml: "robocup_mapf_tree.xml"
     #default_nav_through_poses_bt_xml: "nav2_bt_navigator/navigate_through_poses_w_replanning_and_recovery.xml"
-
-    bt_navigatornavigate_to_pose_rclcpp_node:
-       goal_reached_tol: 5.0
-       robot_base_frame: "to_be_set_by_launchfile"
-
 
     plugin_lib_names:
     - nav2_compute_path_to_pose_action_bt_node
@@ -60,6 +50,12 @@ bt_navigator:
     - nav2_goal_checker_selector_bt_node
     - nav2_mapf_call_service_bt_node
     - nav2_check_for_wait_condition_bt_node
+
+bt_navigatornavigate_to_pose_rclcpp_node:
+  ros__parameters:
+    goal_reached_tol: 5.0
+    robotino_id: 0
+    robotino_frame: base_link
 
 #controller_server:
 #  ros__parameters:

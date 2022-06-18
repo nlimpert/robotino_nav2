@@ -63,6 +63,8 @@ def generate_launch_description():
         'use_sim_time': use_sim_time,
         'robot_base_frame': env_ns + 'base_link',
         'id': env_id,
+        'robotino_id': env_id,
+        'robotino_frame': env_ns + 'base_link',
         'default_nav_to_pose_bt_xml': bt_dir + '/behavior_trees/navigate_to_pose_w_mapf_w_replanning_and_recovery.xml',
         'autostart': autostart}
 
