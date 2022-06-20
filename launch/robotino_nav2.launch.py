@@ -65,7 +65,7 @@ def generate_launch_description():
         'id': env_id,
         'robotino_id': env_id,
         'robotino_frame': env_ns + 'base_link',
-        'default_nav_to_pose_bt_xml': bt_dir + '/behavior_trees/navigate_to_pose_w_mapf_w_replanning_and_recovery.xml',
+        'default_nav_to_pose_bt_xml': bt_dir + '/behavior_trees/robocup_tree.xml',
         'autostart': autostart}
 
     configured_params = RewrittenYaml(
